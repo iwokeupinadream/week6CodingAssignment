@@ -1,4 +1,3 @@
-
 class Card {
     constructor(value, suit) {
         this.value = value
@@ -19,6 +18,41 @@ class Deck {
     constructor(cardArray) {
         this.cardArray = cardArray
     }
+    //creates 13 of each value and suit and adds them to an array called "array of cards"
+    generateNewDeck() {
+
+        let arrayOfCards = []
+
+        for(let i = 0; i < 13; i++) {
+            arrayOfCards.push(new Card(i + 1, 'Hearts')) 
+        }
+        for(let i = 0; i < 13; i++) {
+            arrayOfCards.push(new Card(i + 1, 'Diamonds'))
+        }
+        for(let i = 0; i < 13; i++) {
+            arrayOfCards.push(new Card(i + 1, 'Clubs'))
+        }
+        for(let i = 0; i < 13; i++) {
+            arrayOfCards.push(new Card(i + 1, 'Spades'))
+        }
+
+        return new Deck(arrayOfCards)
+}
+    //shuffles deck randomly using a loop i studied online
+    static shuffleDeck(deck) {
+        let currentIndex = deck.length, randomIndex;
+      //loop that loops while there are still cards to shuffle
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * 
+            currentIndex);
+            currentIndex--;
+      //swaping of cards
+          [deck[currentIndex], deck[randomIndex]] = 
+          [deck[randomIndex], deck[currentIndex]];
+        }
+      
+        return deck;
+      }
 }
 
 class Player {
@@ -27,6 +61,10 @@ class Player {
         this.playerID = playerID
         this.playerHand = []
     }
+
+    generatePlayer(score, playerID,) {
+        return new Player(score, playerID)
+        }
 }
 
 class Game {
@@ -40,10 +78,10 @@ class Game {
 
         alert('Press the okay button to generate and shuffle a new deck')
 
-        let gameDeck = this.generateNewDeck()
+        let gameDeck = new Deck().generateNewDeck()
             console.log(gameDeck)
 
-        let shuffledDeck = this.shuffleDeck(gameDeck.cardArray)
+        let shuffledDeck = Deck.shuffleDeck(gameDeck.cardArray)
             console.log(shuffledDeck)
 
         alert('Deck Generated and Shuffling Completed!\n' +
@@ -51,8 +89,8 @@ class Game {
         'and to divide the shuffled deck between them')
 
 
-        let player1 = this.generatePlayer(0, 1)
-        let player2 = this.generatePlayer(0, 2)
+        let player1 = new Player().generatePlayer(0, 1)
+        let player2 = new Player().generatePlayer(0, 2)
 
         console.log(player1, player2)
 
@@ -96,6 +134,7 @@ class Game {
         console.log(player1.playerScore)
         console.log(player2.playerScore)
 
+        //loop to decide who won the game
         if(player1.playerScore != player2.playerScore) {
             if(player1.playerScore > player2.playerScore) {
                 alert('Player 1 wins with a score of ' + player1.playerScore + '\nPlayer 2 score: ' +
@@ -111,47 +150,6 @@ class Game {
         }
         
     }
-    //creates 13 card objects of each value of each suit and stores them in an array (52 total)
-    //returns a new deck with the card array that was created
-    generateNewDeck() {
-
-        let arrayOfCards = []
-
-        for(let i = 0; i < 13; i++) {
-            arrayOfCards.push(new Card(i + 1, 'Hearts')) 
-        }
-        for(let i = 0; i < 13; i++) {
-            arrayOfCards.push(new Card(i + 1, 'Diamonds'))
-        }
-        for(let i = 0; i < 13; i++) {
-            arrayOfCards.push(new Card(i + 1, 'Clubs'))
-        }
-        for(let i = 0; i < 13; i++) {
-            arrayOfCards.push(new Card(i + 1, 'Spades'))
-        }
-
-        return new Deck(arrayOfCards)
-        
-    }
-    //shuffles deck randomly using a loop i studied online
-    shuffleDeck(deck) {
-        let currentIndex = deck.length, randomIndex;
-      //loop that loops while there are still cards to shuffle
-        while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * 
-            currentIndex);
-            currentIndex--;
-      //swaping of cards
-          [deck[currentIndex], deck[randomIndex]] = 
-          [deck[randomIndex], deck[currentIndex]];
-        }
-      
-        return deck;
-      }
-
-    generatePlayer(score, playerID,) {
-        return new Player(score, playerID)
-        }
 
     //even cards go to player 1
     //odd cards go to player 2
